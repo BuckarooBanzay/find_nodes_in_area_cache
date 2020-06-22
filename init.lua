@@ -1,6 +1,7 @@
 
 find_nodes_in_area_cache = {
-  nodenames = {}
+  nodenames = {},
+  node_id_map = {}
 }
 
 local MP = minetest.get_modpath("find_nodes_in_area_cache")

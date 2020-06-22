@@ -2,7 +2,12 @@
 
 
 function find_nodes_in_area_cache.register(nodename)
+  -- node name
   find_nodes_in_area_cache.nodenames[nodename] = true
+
+  -- node id
+  local content_id = minetest.get_content_id(nodename)
+  find_nodes_in_area_cache.node_id_map[content_id] = nodename
 
   local nodedef = minetest.registered_nodes[nodename]
 

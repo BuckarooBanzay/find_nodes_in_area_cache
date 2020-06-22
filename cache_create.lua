@@ -7,12 +7,8 @@ function find_nodes_in_area_cache.create_entry(mapblock)
     blocks = {}
   }
 
-  -- collect node-ids and cache in map
-  -- TODO: do this at load-time
-  local node_id_map = {}
+  -- create nodename map
   for nodename in pairs(find_nodes_in_area_cache.nodenames) do
-    local content_id = minetest.get_content_id(nodename)
-    node_id_map[content_id] = nodename
     entry.blocks[nodename] = {}
   end
 
@@ -30,7 +26,7 @@ function find_nodes_in_area_cache.create_entry(mapblock)
     local i = area:index(x,y,z)
 
 		local node_id = node_data[i]
-    local nodename = node_id_map[node_id]
+    local nodename = find_nodes_in_area_cache.node_id_map[node_id]
     if nodename then
       table.insert(entry.blocks[nodename], {x=x, y=y, z=z})
     end
