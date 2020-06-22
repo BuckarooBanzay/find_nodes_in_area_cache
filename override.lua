@@ -19,11 +19,11 @@ minetest.find_nodes_in_area = function(pos1, pos2, nodenames)
 
   if count == #nodenametable then
     -- all nodenames are cached, query cached function
-    print("[cache] cached call for nodenames " .. dump(nodenametable))
+    -- print("[cache] cached call for nodenames " .. dump(nodenametable))
     return find_nodes_in_area_cache.get(pos1, pos2, nodenametable)
   else
     -- non-cached call
-    print("[cache] non-cached call for nodenames " .. dump(nodenames))
+    -- print("[cache] non-cached call for nodenames " .. dump(nodenames))
     return old_find_nodes_in_area(pos1, pos2, nodenames)
   end
 

@@ -1,7 +1,7 @@
 
 
 function find_nodes_in_area_cache.create_entry(mapblock)
-  print("[cache] creating entry for mapblock " .. dump(mapblock))
+  -- print("[cache] creating entry for mapblock " .. dump(mapblock))
   local entry = {
     mtime = os.time(),
     blocks = {}

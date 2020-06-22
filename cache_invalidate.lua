@@ -15,7 +15,7 @@ local function job()
     local age = now - entry.mtime
 
     -- check expiration
-    if age > 10 then
+    if age > 20 then
       -- add to expire list
       table.insert(expired_hashes, hash)
     else
