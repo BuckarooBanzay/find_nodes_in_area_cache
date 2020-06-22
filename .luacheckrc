@@ -1,6 +1,7 @@
 
 globals = {
-	"minetest"
+	"minetest",
+	"find_nodes_in_area_cache"
 }
 
 read_globals = {
