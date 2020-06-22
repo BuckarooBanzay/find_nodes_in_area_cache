@@ -1,12 +1,5 @@
 local has_monitoring_mod = minetest.get_modpath("monitoring")
 
-local cache_size_metric
-local cache_size = 0
-
-if has_monitoring_mod then
-  cache_size_metric = monitoring.gauge("find_nodes_in_area_cache_cache_size", "Count of all cached mapblocks")
-end
-
 local hit_count, miss_count
 
 if has_monitoring_mod then
@@ -32,25 +25,16 @@ cache = {
   ["..."] = {}
 }
 --]]
-local cache = {}
+find_nodes_in_area_cache.cache = {}
 
-function find_nodes_in_area_cache.get_size()
-  local count = 0
-  for _ in pairs(cache) do
-    count = count + 1
-  end
-  return count
-end
 
 function find_nodes_in_area_cache.get_entry(mapblock)
   local hash = minetest.hash_node_position(mapblock)
-  local entry = cache[hash]
+  local entry = find_nodes_in_area_cache.cache[hash]
   if not entry then
     entry = find_nodes_in_area_cache.create_entry(mapblock)
-    cache[hash] = entry
+    find_nodes_in_area_cache.cache[hash] = entry
     if has_monitoring_mod then
-      cache_size = cache_size + 1
-      cache_size_metric.set(cache_size)
       miss_count.inc()
     end
   else
@@ -58,7 +42,6 @@ function find_nodes_in_area_cache.get_entry(mapblock)
       hit_count.inc()
     end
   end
-  -- TODO: cache expiration
   return entry
 end
 
@@ -100,7 +83,7 @@ end
 
 function find_nodes_in_area_cache.invalidate(blockpos)
   local hash = minetest.hash_node_position(blockpos)
-  cache[hash] = nil
+  find_nodes_in_area_cache.cache[hash] = nil
 end
 
 function find_nodes_in_area_cache.invalidate_area(pos1, pos2)
@@ -114,7 +97,7 @@ function find_nodes_in_area_cache.invalidate_area(pos1, pos2)
   for z=mapblock1.z, mapblock2.z do
     local blockpos = {x=x, y=y, z=z}
 		local hash = minetest.hash_node_position(blockpos)
-	  cache[hash] = nil
+	  find_nodes_in_area_cache.cache[hash] = nil
   end
   end
   end
