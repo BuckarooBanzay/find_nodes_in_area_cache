@@ -15,4 +15,5 @@ read_globals = {
 	"dump", "VoxelArea",
 
 	-- deps
+	"monitoring"
 }

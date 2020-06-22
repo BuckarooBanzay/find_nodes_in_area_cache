@@ -1,3 +1,19 @@
+local has_monitoring_mod = minetest.get_modpath("monitoring")
+
+local cache_size_metric
+local cache_size = 0
+
+if has_monitoring_mod then
+  cache_size_metric = monitoring.gauge("find_nodes_in_area_cache_cache_size", "Count of all cached mapblocks")
+end
+
+local hit_count, miss_count
+
+if has_monitoring_mod then
+  hit_count = monitoring.counter("find_nodes_in_area_cache_cache_hit", "cache hits")
+  miss_count = monitoring.counter("find_nodes_in_area_cache_cache_miss", "cache misses")
+end
+
 
 --[[
 cache = {
@@ -18,12 +34,29 @@ cache = {
 --]]
 local cache = {}
 
+function find_nodes_in_area_cache.get_size()
+  local count = 0
+  for _ in pairs(cache) do
+    count = count + 1
+  end
+  return count
+end
+
 function find_nodes_in_area_cache.get_entry(mapblock)
   local hash = minetest.hash_node_position(mapblock)
   local entry = cache[hash]
   if not entry then
     entry = find_nodes_in_area_cache.create_entry(mapblock)
     cache[hash] = entry
+    if has_monitoring_mod then
+      cache_size = cache_size + 1
+      cache_size_metric.set(cache_size)
+      miss_count.inc()
+    end
+  else
+    if has_monitoring_mod then
+      hit_count.inc()
+    end
   end
   -- TODO: cache expiration
   return entry
