@@ -1,7 +1,8 @@
 
 globals = {
 	"minetest",
-	"find_nodes_in_area_cache"
+	"find_nodes_in_area_cache",
+	"jumpdrive"
 }
 
 read_globals = {
