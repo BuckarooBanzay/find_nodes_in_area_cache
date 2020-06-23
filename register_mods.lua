@@ -13,6 +13,10 @@ if minetest.get_modpath("xp_protector") then
   find_nodes_in_area_cache.register("xp_redo:protector")
 end
 
+if minetest.get_modpath("vacuum") then
+  find_nodes_in_area_cache.register("vacuum:airpump")
+end
+
 if minetest.get_modpath("jumpdrive") then
   local old_jumpdrive_move = jumpdrive.move
 
