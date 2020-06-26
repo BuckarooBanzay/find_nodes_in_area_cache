@@ -1,6 +1,16 @@
 
 find_nodes_in_area_cache = {
+
+  -- list of nodenames: { "protector:protect" = true }
   nodenames = {},
+
+  -- map of groupnames: { "advtrains_track" = true }
+  groupnames = {},
+
+  -- group to nodes association: { "advtrains_track" = {"advtrains:dtrack"} }
+  group_nodes_map = {},
+
+  -- node id map: { 255 = "protector:protect" }
   node_id_map = {}
 }
 

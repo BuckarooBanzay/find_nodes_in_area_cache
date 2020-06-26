@@ -21,10 +21,20 @@ minetest.find_nodes_in_area = function(pos1, pos2, nodenames)
     -- all nodenames are cached, query cached function
     -- print("[cache] cached call for nodenames " .. dump(nodenametable))
     return find_nodes_in_area_cache.get(pos1, pos2, nodenametable)
-  else
-    -- non-cached call
-    -- print("[cache] non-cached call for nodenames " .. dump(nodenames))
-    return old_find_nodes_in_area(pos1, pos2, nodenames)
   end
 
+  -- compare group names (limitiation: only one group possible right now)
+  if #nodenametable == 1 then
+    for groupname in pairs(find_nodes_in_area_cache.groupnames) do
+      if nodenametable[1] == "group" .. groupname then
+        -- group match found
+        local matched_nodenames = find_nodes_in_area_cache.group_nodes_map[groupname]
+        return find_nodes_in_area_cache.get(pos1, pos2, matched_nodenames)
+      end
+    end
+  end
+
+  -- non-cached call
+  -- print("[cache] non-cached call for nodenames " .. dump(nodenames))
+  return old_find_nodes_in_area(pos1, pos2, nodenames)
 end

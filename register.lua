@@ -36,3 +36,20 @@ function find_nodes_in_area_cache.register(nodename)
     end
   })
 end
+
+function find_nodes_in_area_cache.register_group(groupname)
+  minetest.register_on_mods_loaded(function()
+    find_nodes_in_area_cache.groupnames[groupname] = true
+    local nodenames = {}
+
+    for nodename, def in pairs(minetest.registered_nodes) do
+      if def.groups[groupname] then
+        table.insert(nodenames, nodename)
+        find_nodes_in_area_cache.register(nodename)
+      end
+    end
+
+    -- add found node names
+    find_nodes_in_area_cache.group_nodes_map[groupname] = nodenames
+  end)
+end

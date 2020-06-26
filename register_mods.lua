@@ -27,3 +27,7 @@ if minetest.get_modpath("jumpdrive") then
     find_nodes_in_area_cache.invalidate_area(target_pos1, target_pos2)
   end
 end
+
+if minetest.get_modpath("advtrains") then
+  find_nodes_in_area_cache.register("advtrains_track")
+end
