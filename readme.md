@@ -27,6 +27,11 @@ Optional support for these mods:
 * `jumpdrive`
 * `vacuum`
 
+# FAW
+
+* **Q:** This is a big, ugly hack, wtf?
+* **A:** Yes it is...
+
 # License
 
 MIT
