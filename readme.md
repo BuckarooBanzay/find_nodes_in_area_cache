@@ -27,7 +27,7 @@ Optional support for these mods:
 * `jumpdrive`
 * `vacuum`
 
-# FAW
+# FAQ
 
 * **Q:** This is a big, ugly hack, wtf?
 * **A:** Yes it is...
