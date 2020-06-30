@@ -29,5 +29,5 @@ if minetest.get_modpath("jumpdrive") then
 end
 
 if minetest.get_modpath("advtrains") then
-  find_nodes_in_area_cache.register("advtrains_track")
+  find_nodes_in_area_cache.register_group("advtrains_track")
 end
