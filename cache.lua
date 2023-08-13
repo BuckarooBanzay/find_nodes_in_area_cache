@@ -45,14 +45,14 @@ function find_nodes_in_area_cache.get_entry(mapblock)
   return entry
 end
 
-function find_nodes_in_area_cache.get(pos1, pos2, nodenames)
+function find_nodes_in_area_cache.get(pos1, pos2, nodenames, grouped)
   pos1, pos2 = find_nodes_in_area_cache.sort_pos(pos1, pos2)
 
   local mapblock1 = find_nodes_in_area_cache.get_mapblock_from_pos(pos1)
   local mapblock2 = find_nodes_in_area_cache.get_mapblock_from_pos(pos2)
 
-  local pos_result = {}
-  local stat_result = {}
+  local result = {}
+  local counts = {}
 
   for x=mapblock1.x, mapblock2.x do
   for y=mapblock1.y, mapblock2.y do
@@ -67,10 +67,13 @@ function find_nodes_in_area_cache.get(pos1, pos2, nodenames)
         local y_fits = pos.y <= pos2.y and pos.y >= pos1.y
         local z_fits = pos.z <= pos2.z and pos.z >= pos1.z
         if x_fits and y_fits and z_fits then
-          -- add pos
-          table.insert(pos_result, pos)
-          -- increment stats
-          stat_result[nodename] = (stat_result[nodename] or 0) + 1
+          if grouped then
+            result[nodename] = result[nodename] or {}
+            table.insert(result[nodename], pos)
+          else
+            table.insert(result, pos)
+            counts[nodename] = (counts[nodename] or 0) + 1
+          end
         end
       end
     end
@@ -78,7 +81,10 @@ function find_nodes_in_area_cache.get(pos1, pos2, nodenames)
   end
   end
 
-  return pos_result, stat_result
+  if grouped then
+    return result
+  end
+  return result, counts
 end
 
 function find_nodes_in_area_cache.invalidate(blockpos)
