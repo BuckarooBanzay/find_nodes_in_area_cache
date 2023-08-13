@@ -121,7 +121,7 @@ function find_nodes_in_area_cache.remove(nodename, oldpos)
   local poslist = {}
   for _, pos in ipairs(entry.blocks[nodename]) do
     -- TODO: maybe use table.remove here
-    if not pos.x == oldpos.x and not pos.y == oldpos.y and not pos.z == oldpos.z then
+    if pos.x ~= oldpos.x and pos.y ~= oldpos.y and pos.z ~= oldpos.z then
       -- not the oldpos
       table.insert(poslist, pos)
     end
